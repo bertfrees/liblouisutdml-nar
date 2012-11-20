@@ -79,6 +79,8 @@
 					<include>liblouisutdml/*.h</include>
 					<include>gnulib/*.c</include>
 					<include>tools/file2brl.c</include>
+					<include>java/*.c</include>
+					<include>java/*.h</include>
 				    </includes>
 				    <excludes>
 					<exclude>liblouisutdml/make_sem_names.c</exclude>
@@ -105,7 +107,14 @@
 		<extensions>true</extensions>
 		<configuration>
 		    <c>
-			<sourceDirectory>src/main/liblouisutdml</sourceDirectory>
+			<sourceDirectory>src/main</sourceDirectory>
+			<includes>
+			    <include>liblouisutdml/*.c</include>
+			    <include>java/*.c</include>
+			</includes>
+                        <includePaths>
+                            <includePath>src/main/liblouisutdml</includePath>
+                        </includePaths>
 			<defines>
 			    <define>PACKAGE_VERSION="${liblouisutdml.version}"</define>
 			    <define>LIBLOUIS_TABLES_PATH="${LIBLOUIS_TABLES_PATH}"</define>
