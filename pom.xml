@@ -227,6 +227,46 @@
 		</executions>
 	    </plugin>
 	    <plugin>
+		<artifactId>maven-antrun-plugin</artifactId>
+		<executions>
+		    <execution>
+                        <id>test</id>
+			<phase>process-test-resources</phase>
+			<goals>
+                            <goal>run</goal>
+                        </goals>
+			<configuration>
+			    <tasks>
+				<copy todir="target/test-classes" flatten="true">
+                                    <fileset dir="target/nar">
+                                        <include name="**/*.so"/>
+                                        <include name="**/*.so.*"/>
+                                        <include name="**/file2brl"/>
+                                    </fileset>
+                                </copy>
+                                <chmod file="target/test-classes/test" perm="+x"/>
+			    </tasks>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>target/test-classes/test</executable>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+	    <plugin>
 		<artifactId>maven-clean-plugin</artifactId>
 		<configuration>
 		    <filesets>

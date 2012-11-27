@@ -1,0 +1,8 @@
+#!/bin/sh
+cd `dirname $0`
+chmod +x file2brl
+./file2brl -f ./ \
+           -CliteraryTextTable=table.cti \
+           -CeditTable=table.cti \
+           -CsemanticFiles=semantics.sem \
+           input.xml
