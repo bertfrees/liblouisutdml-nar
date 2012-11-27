@@ -37,7 +37,9 @@
 		<executions>
 		    <execution>
 			<phase>generate-sources</phase>
-			<goals><goal>checkout</goal></goals>
+			<goals>
+                            <goal>checkout</goal>
+                        </goals>
 			<configuration>
 			    <connectionUrl>scm:hg:https://code.google.com/p/liblouisutdml/</connectionUrl>
 			    <skipCheckoutIfExists>true</skipCheckoutIfExists>
@@ -51,13 +53,17 @@
 		<artifactId>maven-antrun-plugin</artifactId>
 		<executions>
 		    <execution>
+                        <id>generate-sources</id>
 			<phase>generate-sources</phase>
-			<goals><goal>run</goal></goals>
+			<goals>
+                            <goal>run</goal>
+                        </goals>
 			<configuration>
 			    <tasks>
 				<copy file="target/checkout/gnulib/getopt.in.h"
 				      tofile="target/checkout/gnulib/getopt.h"/>
 				<touch file="target/checkout/liblouisutdml/config.h"/>
+                                <fixcrlf srcDir="target/checkout/java" includes="**/*.java"/>
 			    </tasks>
 			</configuration>
 		    </execution>
@@ -68,7 +74,9 @@
 		<executions>
 		    <execution>
 			<phase>process-sources</phase>
-			<goals><goal>copy-resources</goal></goals>
+			<goals>
+                            <goal>copy-resources</goal>
+                        </goals>
 			<configuration>
 			    <outputDirectory>src/main</outputDirectory>
 			    <resources>
@@ -85,6 +93,7 @@
 				    <excludes>
 					<exclude>liblouisutdml/make_sem_names.c</exclude>
 				    </excludes>
+                                    <targetPath>c</targetPath>
 				</resource>
 				<resource>
 				    <directory>target/checkout</directory>
@@ -95,25 +104,62 @@
 					<exclude>gnulib/*.in.h</exclude>
 				    </excludes>
 				    <filtering>true</filtering>
+                                    <targetPath>c</targetPath>
 				</resource>
+                                <resource>
+                                    <directory>target/checkout/java/src</directory>
+                                    <includes>
+                                        <include>**/*.java</include>
+                                    </includes>
+                                    <targetPath>java</targetPath>
+                                </resource>
 			    </resources>
 			</configuration>
 		    </execution>
 		</executions>
 	    </plugin>
+            <plugin>
+                <artifactId>maven-patch-plugin</artifactId>
+                <configuration>
+                    <patchDirectory>src/main/patches</patchDirectory>
+                    <patches>
+                        <patch>java.patch</patch>
+                    </patches>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>patch</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 	    <plugin>
 		<artifactId>maven-nar-plugin</artifactId>
 		<version>2.1-SNAPSHOT</version>
 		<extensions>true</extensions>
 		<configuration>
 		    <c>
-			<sourceDirectory>src/main</sourceDirectory>
+			<sourceDirectory>src/main/c</sourceDirectory>
 			<includes>
 			    <include>liblouisutdml/*.c</include>
 			    <include>java/*.c</include>
 			</includes>
                         <includePaths>
-                            <includePath>src/main/liblouisutdml</includePath>
+                            <includePath>src/main/c/liblouisutdml</includePath>
                         </includePaths>
 			<defines>
 			    <define>PACKAGE_VERSION="${liblouisutdml.version}"</define>
@@ -135,19 +181,20 @@
 		</configuration>
 		<executions>
 		    <execution>
+                        <id>file2brl</id>
 			<goals>
-			    <goal>nar-compile</goal>
-			</goals>
+                            <goal>nar-compile</goal>
+                        </goals>
 			<configuration>
 			    <c>
-				<sourceDirectory>src/main</sourceDirectory>
+				<sourceDirectory>src/main/c</sourceDirectory>
 				<includes>
 				    <include>tools/file2brl.c</include>
 				    <include>gnulib/*.c</include>
 				</includes>
 				<includePaths>
-				    <includePath>src/main/liblouisutdml</includePath>
-				    <includePath>src/main/gnulib</includePath>
+				    <includePath>src/main/c/liblouisutdml</includePath>
+				    <includePath>src/main/c/gnulib</includePath>
 				</includePaths>
 				<defines>
 				    <define>PACKAGE="liblouisutdml"</define>
@@ -184,7 +231,10 @@
 		<configuration>
 		    <filesets>
 			<fileset>
-			    <directory>src</directory>
+			    <directory>src/main/c</directory>
+			</fileset>
+			<fileset>
+			    <directory>src/main/java</directory>
 			</fileset>
 		    </filesets>
 		</configuration>

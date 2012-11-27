@@ -1,0 +1,44 @@
+Index: org/liblouis/liblouisutdml.java
+===================================================================
+--- org/liblouis/liblouisutdml.java
++++ org/liblouis/liblouisutdml.java
+@@ -80,30 +80,15 @@
+ public static native void initialize (String dataPath, String 
+ writeablePath);
+ 
+-public static void loadLibrary ()
+-throws Exception {
+-if (!libraryLoaded)
+-{
+-System.loadLibrary ("liblouisutdml");
+-libraryLoaded = true;
+-}
+-else
+-{
+-throw new Exception ("Attempt to reload library.");
+-}
+-}
+-
+-public static void load (String filename)
+-throws Exception {
+-if (!libraryLoaded)
+-{
+-System.load (filename);
+-libraryLoaded = true;
+-}
+-else
+-{
+-throw new Exception ("Attempt to reload library.");
+-}
++public static void loadLibrary (String liblouisPath, String 
++liblouisutdmlPath) throws Exception {
++  if (libraryLoaded)
++    return;
++  if (liblouisPath == null || liblouisutdmlPath == null)
++    throw new Exception ("Could not load libraries. liblouisPath or liblouisutdmlPath undefined.");
++  System.load (liblouisPath);
++  System.load (liblouisutdmlPath);
++  libraryLoaded = true;
+ }
+ 
+ /** Return a string giving the versions of both liblouisutdml and 
