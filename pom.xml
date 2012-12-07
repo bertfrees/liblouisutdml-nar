@@ -43,7 +43,7 @@
 			<configuration>
 			    <connectionUrl>scm:hg:https://code.google.com/p/liblouisutdml/</connectionUrl>
 			    <skipCheckoutIfExists>true</skipCheckoutIfExists>
-			    <scmVersion>3d076794ba8a</scmVersion>
+			    <scmVersion>88cf2189aca5</scmVersion>
 			    <scmVersionType>revision</scmVersionType>
 			</configuration>
 		    </execution>
