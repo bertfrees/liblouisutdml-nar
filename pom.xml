@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.liblouis</groupId>
 	<artifactId>louisutdml</artifactId>
-	<version>2.3.1-pipeline-SNAPSHOT</version>
+	<version>2.3.1-SNAPSHOT</version>
 	<packaging>nar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<liblouisutdml.version>${project.version}</liblouisutdml.version>
-		<liblouis.version>2.4.1-pipeline-SNAPSHOT</liblouis.version>
+		<liblouis.version>2.5.2</liblouis.version>
 		<libxml2.version>2.7.3</libxml2.version>
 		<LIBLOUIS_TABLES_PATH>/usr/local/share/liblouis/tables/</LIBLOUIS_TABLES_PATH>
 		<LBU_PATH>/usr/local/share/liblouisutdml/lbu_files/</LBU_PATH>
@@ -46,8 +46,6 @@
 						<configuration>
 							<connectionUrl>scm:hg:https://code.google.com/p/liblouisutdml/</connectionUrl>
 							<skipCheckoutIfExists>true</skipCheckoutIfExists>
-							<scmVersion>88cf2189aca5</scmVersion>
-							<scmVersionType>revision</scmVersionType>
 						</configuration>
 					</execution>
 				</executions>
@@ -118,24 +116,6 @@
 								</resource>
 							</resources>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-patch-plugin</artifactId>
-				<configuration>
-					<patchDirectory>src/main/patches</patchDirectory>
-					<patches>
-						<patch>java.patch</patch>
-					</patches>
-				</configuration>
-				<executions>
-					<execution>
-						<id>patch</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>apply</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
